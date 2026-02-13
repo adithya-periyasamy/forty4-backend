@@ -1,18 +1,30 @@
-import express from "express";
+import express, { type Response } from "express";
+
+import UserRouter from "./routes/user.route.js";
+
+import cors from "cors";
 
 const app = express();
 
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production'
+    ? process.env.FRONTEND_URL
+    : "*",
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
-// health check / root route
-
-app.get("/", (req, res) => {
+app.get("/", (res: Response) => {
   res.json({ message: "server is running" });
 });
 
-// 404 handler / catch-all route
+app.use("/api/users", UserRouter);
 
-app.use((req, res) => {
+app.use((res: Response) => {
   res.status(404).json("Route not found");
 });
 

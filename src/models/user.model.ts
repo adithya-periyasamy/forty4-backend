@@ -1,20 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-
-interface UserInterface {
-  name: string;
-  email: string;
-  phone: string;
-  company?: string | null;
-  address?: {
-    city?: string | null;
-    zipcode?: string | null;
-    geo?: { lat?: string | null; lng?: string | null };
-  };
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-const userSchema = new Schema<UserInterface>(
+import type { UserType } from "../lib/types.js";
+const userSchema = new Schema<UserType>(
   {
     name: {
       type: String,
@@ -65,4 +51,4 @@ const userSchema = new Schema<UserInterface>(
   { timestamps: true },
 );
 
-export const User = mongoose.model<UserInterface>("User", userSchema);
+export const User = mongoose.model<UserType>("User", userSchema);
